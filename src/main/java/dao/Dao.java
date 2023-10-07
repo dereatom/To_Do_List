@@ -8,7 +8,7 @@ import java.util.List;
 public interface Dao<E> {
     //CRUD operations
 
-    void create(E obj) throws UserEmailTakenException;
+    void create(E obj) throws UserEmailTakenException, NoSuchUserException;
 
     E read(int id);
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserDaoImpl implements Dao<User> {
     @Override
-    public void create(User user) throws UserEmailTakenException {
+    public void create(User user) throws UserEmailTakenException, NoSuchUserException {
         if (userExists(user.getEmail())) {
             throw new UserEmailTakenException();
         }
@@ -135,7 +135,7 @@ public class UserDaoImpl implements Dao<User> {
         }
     }
 
-    private boolean userExists(String email) {
+    private boolean userExists(String email) throws NoSuchUserException {
         return this.read(email) != null;
     }
 
