@@ -8,6 +8,7 @@ import java.util.List;
 public class UserService  {
 
     List<User> sortUsersByEmail(List<User> users){
-        Collections.sort(users, UserComparatorEmail);
+//        Collections.sort(users, UserComparatorEmail);
+        return null;
     }
 }
