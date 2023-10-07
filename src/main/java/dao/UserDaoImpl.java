@@ -60,7 +60,7 @@ public class UserDaoImpl implements Dao<User> {
     }
 
 
-    User read(String email) throws NoSuchUserException {
+   public User read(String email) throws NoSuchUserException {
 
         final String READ_USER_BY_EMAIL = "SELECT * FROM users WHERE user_email = ?";
 
@@ -77,7 +77,7 @@ public class UserDaoImpl implements Dao<User> {
                 user.setPassword(rs.getString("user_password"));
                 return user;
             }
-            throw new NoSuchUserException("email");
+//            throw new NoSuchUserException("email");
         } catch (SQLException e) {
             System.out.println("There was a problem in your read(String) method of the UserDaoImpl class when trying to make a connection to the database:\n" + e.getMessage());
         }
@@ -135,7 +135,7 @@ public class UserDaoImpl implements Dao<User> {
         }
     }
 
-    private boolean userExists(String email) throws NoSuchUserException {
+    public boolean userExists(String email) throws NoSuchUserException {
         return this.read(email) != null;
     }
 

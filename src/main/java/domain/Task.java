@@ -8,9 +8,20 @@ public class Task implements Comparable<Task> {
 
     private LocalDate startDate;
     private int taskId;
+
+    private int userId;
     private String title;
     private String description;
     private TaskStatus status;
+
+    public Task(LocalDate dueDate, LocalDate startDate,  String title, String description, TaskStatus status, int userId) {
+        this.dueDate = dueDate;
+        this.startDate = startDate;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+    }
 
     public Task() {
 
@@ -86,5 +97,9 @@ public class Task implements Comparable<Task> {
     @Override
     public int compareTo(Task o) {
         return this.getDueDate().compareTo(o.getDueDate());
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }
