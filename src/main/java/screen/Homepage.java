@@ -57,6 +57,7 @@ public class Homepage {
                     taskService.updateStatus(user.getUserId());
                     break;
                 case 4:
+                    taskService.completeTask(user.getUserId());
                     break;
                 case 5:
                     break;

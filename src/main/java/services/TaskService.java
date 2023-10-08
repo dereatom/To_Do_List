@@ -117,6 +117,8 @@ public class TaskService {
             }
         }
     }
+
+
     public List<Task> sortTasksByStartDate(int userId) {
         List<Task> tasks = taskDao.readAll(userId);
         Collections.sort(tasks, new TaskComparatorStartDate());
@@ -146,11 +148,12 @@ public class TaskService {
             Task task = tasks.get(i);
             LocalDateTime startDate = task.getStartDate();
             LocalDateTime dueDate = task.getDueDate();
-            System.out.println(i + 1 + ") " + task.getTitle());
-            System.out.println("\t\t" + task.getStatus() + "\n");
-            System.out.println("\t\t" + task.getDescription() + "\n");
-            System.out.println("\t\tStart date:" + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear());
-            System.out.println("\t\tDue date:" + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
+            System.out.println(i + 1 + ") \n"+
+                    "TASK ID: " + task.getTaskId()+"\nTASK TITLE: "+ task.getTitle());
+            System.out.println("\t\tTASK STATUS: " + task.getStatus() + "\n");
+            System.out.println("\t\tTASK DESCRIPTION" + task.getDescription() + "\n");
+            System.out.println("\t\tTASK STARTED ON:" + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear());
+            System.out.println("\t\tTASK DUE ON:" + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
 
             System.out.println("\n\n");
         }
@@ -173,5 +176,21 @@ public class TaskService {
     public void showInProgressTasks(int userId) {
         List<Task> inProgressTasks = taskDao.readAll(userId);
         printTasks(inProgressTasks);
+    }
+
+    public void completeTask(int userId) {
+        System.out.println("Please choose the task you'd like to mark as completed by ID:");
+        List<Task> tasks = taskDao.readAll(userId);
+        printTasks(tasks);
+
+        int taskId = UserInput.getIntInput();
+        UserInput.getStringInput();
+
+        Task task = taskDao.read(taskId); //handle exception at some point
+
+        task.setStatus(TaskStatus.FINISHED);
+        taskDao.update(task);
+        System.out.println("Your task has been successfully completed!");
+
     }
 }
