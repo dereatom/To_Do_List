@@ -148,4 +148,11 @@ public class TaskDaoImpl implements Dao<Task> {
             System.out.println("There was a problem in the delete(int) method of the TaskDaoImpl class. The error message can be found below:\n" + e.getMessage());
         }
     }
+
+    public boolean taskExists(int taskId) {
+        if(read(taskId)!=null)
+            return true;
+        else
+            return false;
+    }
 }

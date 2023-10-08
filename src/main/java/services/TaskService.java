@@ -1,11 +1,12 @@
 package services;
 
 import dao.TaskDaoImpl;
+import dao.UserDaoImpl;
 import domain.Task;
 import domain.TaskStatus;
+import exceptions.ForbiddenOperationException;
 import util.UserInput;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class TaskService {
     TaskDaoImpl taskDao = new TaskDaoImpl();
-
+    UserDaoImpl userDao = new UserDaoImpl();
     public void showTasks(int userId) {
         List<Task> tasks = taskDao.readAll(userId);
         this.printTasks(tasks);
@@ -86,6 +87,7 @@ public class TaskService {
 
         int taskId = UserInput.getIntInput();
         UserInput.getStringInput();
+        checkTaskBelongsToUser(userId, taskId);
         Task task = taskDao.read(taskId);
         return task;
     }
@@ -187,12 +189,13 @@ public class TaskService {
 
     public void completeTask(int userId) {
         System.out.println("Please choose the task you'd like to mark as completed by ID:");
+
         List<Task> tasks = taskDao.readAll(userId);
         printTasks(tasks);
 
         int taskId = UserInput.getIntInput();
         UserInput.getStringInput();
-
+        checkTaskBelongsToUser(userId, taskId);
         Task task = taskDao.read(taskId); //handle exception at some point
 
         task.setStatus(TaskStatus.FINISHED);
@@ -201,12 +204,25 @@ public class TaskService {
 
     }
 
+    private void checkTaskBelongsToUser(int userId, int taskId) {
+        List<Task> tasks = taskDao.readAll(userId);
+        if(tasks.stream().noneMatch(task->task.getTaskId()==taskId)){
+            if(taskDao.taskExists(taskId)){
+                throw new ForbiddenOperationException("Task exists but it does not belong to logged-in user.\n");
+            }else {
+                throw new ForbiddenOperationException("There is no task on record with the provided id");
+            }
+
+        }
+    }
+
     public void deleteTask(int userId) {
         List<Task> tasks = taskDao.readAll(userId);
         System.out.println("Please input the task ID of the task you'd like to remove:\n");
         printTasks(tasks);
         int input = UserInput.getIntInput();
         UserInput.getStringInput();
+        checkTaskBelongsToUser(userId, input);
         taskDao.delete(input);
         System.out.println("You have successfully deleted the task from your list!");
 
