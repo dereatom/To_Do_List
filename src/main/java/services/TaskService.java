@@ -45,6 +45,14 @@ public class TaskService {
                 "(2) IN PROGRESS" +
                 "(3) COMPLETED");
         int userInput = UserInput.getIntInput();
+        UserInput.getStringInput();
+        System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY");
+        String dateStr = UserInput.getStringInput();
+        String[] dateArr = dateStr.split("/");
+        int year = Integer.valueOf(dateArr[2]);
+        int day = Integer.valueOf(dateArr[1]);
+        int month = Integer.valueOf(dateArr[0]);
+        LocalDateTime dueDate = LocalDate.of(year,month, day).atStartOfDay();
         TaskStatus newStatus;
         switch (userInput) {
             case 1:
@@ -63,7 +71,7 @@ public class TaskService {
         task.setTitle(newTitle);
         task.setDescription(newDescription);
         task.setStatus(newStatus);
-
+        task.setDueDate(dueDate);
         taskDao.update(task);
         System.out.println("Task was successfully updated!");
 
@@ -174,7 +182,7 @@ public class TaskService {
     }
 
     public void showInProgressTasks(int userId) {
-        List<Task> inProgressTasks = taskDao.readAll(userId);
+        List<Task> inProgressTasks = getInProgressTasks(userId);
         printTasks(inProgressTasks);
     }
 

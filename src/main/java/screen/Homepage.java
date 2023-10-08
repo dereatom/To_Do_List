@@ -34,12 +34,14 @@ public class Homepage {
                     (3) Update status of task
                     (4) Complete task
                     (5) Delete task
-                    (6) Sort tasks by due date
-                    (7) Sort tasks by start date
-                    (8) Show completed tasks
-                    (9) Show in-progress tasks
-                    (10) Show unstarted tasks
-                    (11) Log out
+                    (6) Update task
+                        
+                    (7) Sort tasks by due date
+                    (8) Sort tasks by start date
+                    (9) Show completed tasks
+                    (10) Show in-progress tasks
+                    (11) Show unstarted tasks
+                    (12) Log out
                     (x) Exit
                                     
                     """);
@@ -63,22 +65,25 @@ public class Homepage {
                     taskService.deleteTask(user.getUserId());
                     break;
                 case 6:
+                    taskService.updateTask(user.getUserId());
+                    break;
+                case 7:
                     List<Task> tasksSortedByDueDate = taskService.sortTasksByDueDate(user.getUserId());
                     taskService.printTasks(tasksSortedByDueDate);
                     break;
-                case 7:
+                case 8:
                     List<Task> tasksSortedByStartDate = taskService.sortTasksByStartDate(user.getUserId());
                     break;
-                case 8:
+                case 9:
                     taskService.showCompletedTasks(user.getUserId());
                     break;
-                case 9:
+                case 10:
                     taskService.showInProgressTasks(user.getUserId());
                     break;
-                case 10:
+                case 11:
                     taskService.showUnstartedTasks(user.getUserId());
                     break;
-                case 11:
+                case 12:
                     return;
                 case 'x':
                     System.out.println("Thank you for using the BLIT ToDoList App!");
