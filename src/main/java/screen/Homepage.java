@@ -60,6 +60,7 @@ public class Homepage {
                     taskService.completeTask(user.getUserId());
                     break;
                 case 5:
+                    taskService.deleteTask(user.getUserId());
                     break;
                 case 6:
                     List<Task> tasksSortedByDueDate = taskService.sortTasksByDueDate(user.getUserId());

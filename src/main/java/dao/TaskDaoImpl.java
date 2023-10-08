@@ -144,6 +144,7 @@ public class TaskDaoImpl implements Dao<Task> {
         final String DELETE_TASK = "DELETE FROM tasks WHERE task_id = ?";
         try (Connection conn = JDBConnection.getConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(DELETE_TASK);
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There was a problem in the delete(int) method of the TaskDaoImpl class. The error message can be found below:\n" + e.getMessage());

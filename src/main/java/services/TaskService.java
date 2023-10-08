@@ -193,4 +193,15 @@ public class TaskService {
         System.out.println("Your task has been successfully completed!");
 
     }
+
+    public void deleteTask(int userId) {
+        List<Task> tasks = taskDao.readAll(userId);
+        System.out.println("Please input the task ID of the task you'd like to remove:\n");
+        printTasks(tasks);
+        int input = UserInput.getIntInput();
+        UserInput.getStringInput();
+        taskDao.delete(input);
+        System.out.println("You have successfully deleted the task from your list!");
+
+    }
 }
