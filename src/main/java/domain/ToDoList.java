@@ -10,10 +10,8 @@ public class ToDoList {
 
     private String name;
     private String description;
-
-    public List<Task> getToDo() {
-        return toDo;
-    }
+    private LocalDate startDate;
+    private LocalDate finishedDate;
 
     public ToDoList(List<Task> toDo, String name, String description, LocalDate startDate, LocalDate finishedDate) {
         this.toDo = toDo;
@@ -21,6 +19,14 @@ public class ToDoList {
         this.description = description;
         this.startDate = startDate;
         this.finishedDate = finishedDate;
+    }
+
+    public List<Task> getToDo() {
+        return toDo;
+    }
+
+    public void setToDo(List<Task> toDo) {
+        this.toDo = toDo;
     }
 
     @Override
@@ -32,10 +38,6 @@ public class ToDoList {
                 ", startDate=" + startDate +
                 ", finishedDate=" + finishedDate +
                 '}';
-    }
-
-    public void setToDo(List<Task> toDo) {
-        this.toDo = toDo;
     }
 
     public String getName() {
@@ -69,12 +71,6 @@ public class ToDoList {
     public void setFinishedDate(LocalDate finishedDate) {
         this.finishedDate = finishedDate;
     }
-
-    private LocalDate startDate;
-
-    private LocalDate finishedDate;
-
-
 
 
 }

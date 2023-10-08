@@ -60,7 +60,7 @@ public class UserDaoImpl implements Dao<User> {
     }
 
 
-   public User read(String email) throws NoSuchUserException {
+    public User read(String email) throws NoSuchUserException {
 
         final String READ_USER_BY_EMAIL = "SELECT * FROM users WHERE user_email = ?";
 

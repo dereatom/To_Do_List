@@ -8,6 +8,6 @@ public class TaskComparator implements Comparator<Task> {
         int dueDateComparator = o1.getDueDate().compareTo(o2.getDueDate());
         int startDateComparator = o1.getStartDate().compareTo(o2.getStartDate());
 
-        return (dueDateComparator!=0)?dueDateComparator:startDateComparator;
+        return (dueDateComparator != 0) ? dueDateComparator : startDateComparator;
     }
 }
