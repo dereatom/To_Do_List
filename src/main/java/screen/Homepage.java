@@ -34,8 +34,7 @@ public class Homepage {
                     (3) Update status of task
                     (4) Complete task
                     (5) Delete task
-                    (6) Update task
-                        
+                    (6) Update task 
                     (7) Sort tasks by due date
                     (8) Sort tasks by start date
                     (9) Show completed tasks

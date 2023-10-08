@@ -11,9 +11,7 @@ import java.util.List;
 
 public class TaskDaoImpl implements Dao<Task> {
 
-    public static void main(String[] args) {
 
-    }
 
     @Override
     public void create(Task task) {

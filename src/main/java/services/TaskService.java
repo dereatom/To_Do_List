@@ -26,7 +26,7 @@ public class TaskService {
         String description = UserInput.getStringInput();
         System.out.println("What is the deadline for the task? Write in this format: MM/DD/YYYY");
         String[] dateArr = UserInput.getStringInput().split("/");
-        LocalDateTime dueDate = LocalDate.of(Integer.valueOf(dateArr[2]),Integer.valueOf(dateArr[1]),Integer.valueOf(dateArr[0])).atStartOfDay();
+        LocalDateTime dueDate = LocalDate.of(Integer.valueOf(dateArr[2]),Integer.valueOf(dateArr[0]),Integer.valueOf(dateArr[1])).atStartOfDay();
         Task task = new Task(dueDate, LocalDateTime.now(), title, description, TaskStatus.NOT_STARTED, userId);
 
         taskDao.create(task);
