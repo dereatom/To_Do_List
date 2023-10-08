@@ -15,6 +15,7 @@ import java.util.List;
 public class TaskService {
     TaskDaoImpl taskDao = new TaskDaoImpl();
     UserDaoImpl userDao = new UserDaoImpl();
+
     public void showTasks(int userId) {
         List<Task> tasks = taskDao.readAll(userId);
         this.printTasks(tasks);
@@ -27,7 +28,7 @@ public class TaskService {
         String description = UserInput.getStringInput();
         System.out.println("What is the deadline for the task? Write in this format: MM/DD/YYYY");
         String[] dateArr = UserInput.getStringInput().split("/");
-        LocalDateTime dueDate = LocalDate.of(Integer.valueOf(dateArr[2]),Integer.valueOf(dateArr[0]),Integer.valueOf(dateArr[1])).atStartOfDay();
+        LocalDateTime dueDate = LocalDate.of(Integer.valueOf(dateArr[2]), Integer.valueOf(dateArr[0]), Integer.valueOf(dateArr[1])).atStartOfDay();
         Task task = new Task(dueDate, LocalDateTime.now(), title, description, TaskStatus.NOT_STARTED, userId);
 
         taskDao.create(task);
@@ -37,42 +38,56 @@ public class TaskService {
 
     public void updateTask(int userId) {
         Task task = chooseTask(userId);
-        System.out.println("Choose a new title:");
+        System.out.println("Choose a new title or leave blank (just press enter) if you want to leave it unchanged:");
+
         String newTitle = UserInput.getStringInput();
-        System.out.println("Add a new description:");
+        if (!newTitle.isBlank() && !newTitle.isEmpty()) {
+            task.setTitle(newTitle);
+        }
+        System.out.println("Add a new description or leave blank (just press enter) if you want to leave it unchanged:");
         String newDescription = UserInput.getStringInput();
-        System.out.println("What will the new status of your task be?\n" +
+        if (!newDescription.isEmpty() && !newDescription.isBlank()) {
+            task.setDescription(newDescription);
+        }
+
+        System.out.println("What will the new status of your task be? (leave blank -- just press enter -- to leave it unchanged)\n" +
                 "(1) NOT STARTED" +
                 "(2) IN PROGRESS" +
                 "(3) COMPLETED");
-        int userInput = UserInput.getIntInput();
+        Integer userInput = UserInput.getIntInput();
         UserInput.getStringInput();
-        System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY");
-        String dateStr = UserInput.getStringInput();
-        String[] dateArr = dateStr.split("/");
-        int year = Integer.valueOf(dateArr[2]);
-        int day = Integer.valueOf(dateArr[1]);
-        int month = Integer.valueOf(dateArr[0]);
-        LocalDateTime dueDate = LocalDate.of(year,month, day).atStartOfDay();
         TaskStatus newStatus;
-        switch (userInput) {
-            case 1:
-                newStatus = TaskStatus.NOT_STARTED;
-                break;
-            case 2:
-                newStatus = TaskStatus.IN_PROGRESS;
-                break;
-            case 3:
-                newStatus = TaskStatus.FINISHED;
-                break;
-            default:
-                newStatus = task.getStatus();
-                break;
+
+        if (userInput != null) {
+            switch (userInput) {
+                case 1:
+                    newStatus = TaskStatus.NOT_STARTED;
+                    break;
+                case 2:
+                    newStatus = TaskStatus.IN_PROGRESS;
+                    break;
+                case 3:
+                    newStatus = TaskStatus.FINISHED;
+                    break;
+                default:
+                    newStatus = task.getStatus();
+                    break;
+            }
+
+            task.setStatus(newStatus);
         }
-        task.setTitle(newTitle);
-        task.setDescription(newDescription);
-        task.setStatus(newStatus);
-        task.setDueDate(dueDate);
+        System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY (leave blank -- just press enter -- if you want to leave unchanged");
+        String dateStr = UserInput.getStringInput();
+        if (!dateStr.isBlank() && !dateStr.isEmpty()) {
+            String[] dateArr = dateStr.split("/");
+            int year = Integer.valueOf(dateArr[2]);
+            int day = Integer.valueOf(dateArr[1]);
+            int month = Integer.valueOf(dateArr[0]);
+            LocalDateTime dueDate = LocalDate.of(year, month, day).atStartOfDay();
+
+
+            task.setDueDate(dueDate);
+        }
         taskDao.update(task);
         System.out.println("Task was successfully updated!");
 
@@ -96,11 +111,11 @@ public class TaskService {
         Task task = chooseTask(userId);
         while (true) {
             System.out.println("Choose new status:\n" +
-                            "(1) NOT STARTED\n" +
-                            "(2) IN PROGRESS\n" +
-                            "(3) COMPLETED\n"+
+                    "(1) NOT STARTED\n" +
+                    "(2) IN PROGRESS\n" +
+                    "(3) COMPLETED\n" +
                     "(4) Exit operation\n" +
-                            "(5) Exit program");
+                    "(5) Exit program");
             int input = UserInput.getIntInput();
             UserInput.getStringInput();
             switch (input) {
@@ -158,11 +173,11 @@ public class TaskService {
             Task task = tasks.get(i);
             LocalDateTime startDate = task.getStartDate();
             LocalDateTime dueDate = task.getDueDate();
-            System.out.println(i + 1 + ") \n"+
-                    "TASK ID: " + task.getTaskId()+"\n\tTASK TITLE: "+ task.getTitle());
-            System.out.println("\t\tTASK STATUS: " + task.getStatus() );
-            System.out.println("\t\tTASK DESCRIPTION: " + task.getDescription() );
-            System.out.println("\t\tTASK STARTED ON: " + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear()+"\n\t\tTASK DUE ON: " + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
+            System.out.println(i + 1 + ") \n" +
+                    "TASK ID: " + task.getTaskId() + "\n\tTASK TITLE: " + task.getTitle());
+            System.out.println("\t\tTASK STATUS: " + task.getStatus());
+            System.out.println("\t\tTASK DESCRIPTION: " + task.getDescription());
+            System.out.println("\t\tTASK STARTED ON: " + startDate.getMonth() + " " + startDate.getDayOfMonth() + ", " + startDate.getYear() + "\n\t\tTASK DUE ON: " + dueDate.getMonth() + " " + dueDate.getDayOfMonth() + ", " + dueDate.getYear());
 
             System.out.println("\n\n");
         }
@@ -206,10 +221,10 @@ public class TaskService {
 
     private void checkTaskBelongsToUser(int userId, int taskId) {
         List<Task> tasks = taskDao.readAll(userId);
-        if(tasks.stream().noneMatch(task->task.getTaskId()==taskId)){
-            if(taskDao.taskExists(taskId)){
+        if (tasks.stream().noneMatch(task -> task.getTaskId() == taskId)) {
+            if (taskDao.taskExists(taskId)) {
                 throw new ForbiddenOperationException("Task exists but it does not belong to logged-in user.\n");
-            }else {
+            } else {
                 throw new ForbiddenOperationException("There is no task on record with the provided id");
             }
 

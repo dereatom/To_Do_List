@@ -11,7 +11,7 @@ public class HomeScreen {
     public static void open() throws NoSuchUserException, UserEmailTakenException {
         userService = new UserService();
         sayHello();
-        while(true) {
+        while (true) {
             provideOptions();
 
             receiveInput();

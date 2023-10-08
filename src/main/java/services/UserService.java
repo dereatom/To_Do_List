@@ -8,6 +8,7 @@ import exceptions.UserEmailTakenException;
 import screen.Homepage;
 import util.UserInput;
 
+import java.util.Collections;
 import java.util.List;
 
 public class UserService {
@@ -15,9 +16,9 @@ public class UserService {
 
     List<User> sortUsersByEmail(List<User> users) {
 
-        return null;
+        Collections.sort(users, new UserComparatorEmail());
+        return users;
     }
-
 
 
     public void signUp() throws UserEmailTakenException, NoSuchUserException {
@@ -47,7 +48,7 @@ public class UserService {
     public void logIn() {
         System.out.println("Username/email:");
         String email = UserInput.getStringInput();
-        if(!userDao.userExists(email)){
+        if (!userDao.userExists(email)) {
             System.out.println("No user exists with that email");
             return;
         }
@@ -56,7 +57,7 @@ public class UserService {
 
         User user = userDao.read(email);
 
-        if(!user.getPassword().trim().equals(password.trim())){
+        if (!user.getPassword().trim().equals(password.trim())) {
             System.out.println("Wrong password.\nPlease try again");
             return;
         }

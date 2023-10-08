@@ -5,12 +5,10 @@ import domain.Task;
 import domain.TaskStatus;
 
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDaoImpl implements Dao<Task> {
-
 
 
     @Override
@@ -42,7 +40,7 @@ public class TaskDaoImpl implements Dao<Task> {
             stmt.setInt(1, taskId);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 task = new Task();
                 task.setTaskId(rs.getInt("task_id"));
                 task.setTitle(rs.getString("task_title"));
@@ -150,7 +148,7 @@ public class TaskDaoImpl implements Dao<Task> {
     }
 
     public boolean taskExists(int taskId) {
-        if(read(taskId)!=null)
+        if (read(taskId) != null)
             return true;
         else
             return false;

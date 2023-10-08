@@ -61,7 +61,7 @@ public class UserDaoImpl implements Dao<User> {
 
 
     public User read(String email) throws NoSuchUserException {
-
+        email = email.toLowerCase();
         final String READ_USER_BY_EMAIL = "SELECT * FROM users WHERE user_email = ?";
 
         try (Connection conn = JDBConnection.getConnection()) {
@@ -96,7 +96,7 @@ public class UserDaoImpl implements Dao<User> {
                 user.setUserId(rs.getInt("user_id"));
                 user.setFirstName(rs.getString("user_first_name"));
                 user.setLastName(rs.getString("user_last_name"));
-                user.setEmail(rs.getString("user_email"));
+                user.setEmail(rs.getString("user_email").toLowerCase());
                 user.setPassword(rs.getString("user_password"));
                 users.add(user);
             }
@@ -126,7 +126,7 @@ public class UserDaoImpl implements Dao<User> {
             preparedStatement.setString(2, user.getLastName());
 
 
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(3, user.getEmail().toLowerCase());
             preparedStatement.setString(4, user.getPassword());
         } catch (SQLException e) {
             System.out.println("There was a problem in the update(User) method of the UserDaoImpl class when creating a connection to the database:\n" + e.getMessage());
@@ -136,7 +136,8 @@ public class UserDaoImpl implements Dao<User> {
     }
 
     public boolean userExists(String email) throws NoSuchUserException {
-        return this.read(email) != null;
+
+        return this.read(email.toLowerCase()) != null;
     }
 
     private boolean userExists(int userId) {
