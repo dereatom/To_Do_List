@@ -56,12 +56,16 @@ public class Task implements Comparable<Task> {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        LocalDateTime dueDate = getDueDate();
+        LocalDateTime startDate = getStartDate();
+        return "TASK ID: " + getTaskId() +
+                "\n" +
+                "\tTASK TITLE: " + getTitle()+
+                "\n" +
+                "\tTASK DESCRIPTION: " + getDescription() +
+                "\n" +
+                "\tTASK DUE ON: " + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+", " + dueDate.getYear()+"\n" +
+                "\tTASK STARTED ON: "+ startDate.getMonth() + " "+ startDate.getDayOfMonth()+", " + startDate.getYear();
     }
 
     public int getTaskId() {

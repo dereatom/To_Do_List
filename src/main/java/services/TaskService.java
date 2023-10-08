@@ -157,11 +157,10 @@ public class TaskService {
             LocalDateTime startDate = task.getStartDate();
             LocalDateTime dueDate = task.getDueDate();
             System.out.println(i + 1 + ") \n"+
-                    "TASK ID: " + task.getTaskId()+"\nTASK TITLE: "+ task.getTitle());
-            System.out.println("\t\tTASK STATUS: " + task.getStatus() + "\n");
-            System.out.println("\t\tTASK DESCRIPTION" + task.getDescription() + "\n");
-            System.out.println("\t\tTASK STARTED ON:" + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear());
-            System.out.println("\t\tTASK DUE ON:" + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
+                    "TASK ID: " + task.getTaskId()+"\n\tTASK TITLE: "+ task.getTitle());
+            System.out.println("\t\tTASK STATUS: " + task.getStatus() );
+            System.out.println("\t\tTASK DESCRIPTION: " + task.getDescription() );
+            System.out.println("\t\tTASK STARTED ON: " + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear()+"\n\t\tTASK DUE ON: " + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
 
             System.out.println("\n\n");
         }
