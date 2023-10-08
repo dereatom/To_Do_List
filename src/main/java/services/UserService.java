@@ -2,18 +2,18 @@ package services;
 
 import dao.UserDaoImpl;
 import domain.User;
-
-import java.util.List;
-
 import exceptions.NoSuchUserException;
 import exceptions.PasswordLengthException;
 import exceptions.UserEmailTakenException;
 import screen.Homepage;
 import util.UserInput;
 
-public class UserService  {
+import java.util.List;
+
+public class UserService {
     UserDaoImpl userDao = new UserDaoImpl();
-    List<User> sortUsersByEmail(List<User> users){
+
+    List<User> sortUsersByEmail(List<User> users) {
 
         return null;
     }
@@ -35,7 +35,7 @@ public class UserService  {
         System.out.println("Please choose a password no longer than 16 characters");
         String password = UserInput.getStringInput();
 
-        if(password.length()<1||password.length()>16){
+        if (password.length() < 1 || password.length() > 16) {
             throw new PasswordLengthException();
         }
         User user = new User(firstName, lastName, email, password);
@@ -45,11 +45,19 @@ public class UserService  {
     public void logIn() {
         System.out.println("Username/email:");
         String email = UserInput.getStringInput();
+        if(!userDao.userExists(email)){
+            System.out.println("No user exists with that email");
+            return;
+        }
         System.out.println("Password:");
         String password = UserInput.getStringInput();
 
         User user = userDao.read(email);
 
+        if(!user.getPassword().trim().equals(password.trim())){
+            System.out.println("Wrong password.\nPlease try again");
+            return;
+        }
         Homepage userHomepage = new Homepage(user);
         userHomepage.open();
 

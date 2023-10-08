@@ -1,12 +1,14 @@
 package domain;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Task implements Comparable<Task> {
 
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
     private int taskId;
 
     private int userId;
@@ -14,7 +16,7 @@ public class Task implements Comparable<Task> {
     private String description;
     private TaskStatus status;
 
-    public Task(LocalDate dueDate, LocalDate startDate,  String title, String description, TaskStatus status, int userId) {
+    public Task(LocalDateTime dueDate, LocalDateTime startDate, String title, String description, TaskStatus status, int userId) {
         this.dueDate = dueDate;
         this.startDate = startDate;
         this.userId = userId;
@@ -27,28 +29,28 @@ public class Task implements Comparable<Task> {
 
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public Task(LocalDate dueDate, int taskId, String title, String description, TaskStatus status) {
+    public Task(LocalDateTime dueDate, int taskId, String title, String description, TaskStatus status) {
         this.dueDate = dueDate;
         this.taskId = taskId;
         this.title = title;
         this.description = description;
         this.status = status;
-        this.setStartDate(LocalDate.now());
+        this.setStartDate(LocalDateTime.now());
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 

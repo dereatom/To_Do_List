@@ -10,56 +10,83 @@ import util.UserInput;
 import java.util.List;
 
 public class Homepage {
-    private UserDaoImpl userDao = new UserDaoImpl();
-
+    static User user = new User();
     private static TaskService taskService = new TaskService();
     private static TaskDaoImpl taskDao = new TaskDaoImpl();
-    static User user = new User();
-    public Homepage(User user){
+    private UserDaoImpl userDao = new UserDaoImpl();
+
+    public Homepage(User user) {
         this.user = user;
     }
-    public static void open(){
+
+    public static void open() {
         System.out.println("Welcome, " + user.getFirstName());
+
         provideOptions();
     }
 
     private static void provideOptions() {
+        while (true) {
+            System.out.println("Please choose from the following options:");
+            System.out.println("""
+                    (1) See tasks
+                    (2) Add task
+                    (3) Update status of task
+                    (4) Complete task
+                    (5) Delete task
+                    (6) Sort tasks by due date
+                    (7) Sort tasks by start date
+                    (8) Show completed tasks
+                    (9) Show in-progress tasks
+                    (10) Show unstarted tasks
+                    (11) Log out
+                    (x) Exit
+                                    
+                    """);
+            int input = UserInput.getIntInput();
+            UserInput.getStringInput();
+            switch (input) {
+                case 1:
+                    taskService.showTasks(user.getUserId());
 
-        System.out.println("Please choose from the following options:");
-        System.out.println("""
-                (1) See tasks
-                (2) Add task
-                (3) Update status of task
-                (4) Complete task
-                (5) Delete task
-                (x) Exit
-                
-                """);
-        int input = UserInput.getIntInput();
-        UserInput.getStringInput();
-        switch(input) {
-            case 1:
-                taskService.showTasks(user.getUserId());
+                    break;
+                case 2:
+                    taskService.addTask(user.getUserId());
+                    break;
+                case 3:
+                    taskService.updateStatus(user.getUserId());
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    List<Task> tasksSortedByDueDate = taskService.sortTasksByDueDate(user.getUserId());
+                    taskService.printTasks(tasksSortedByDueDate);
+                    break;
+                case 7:
+                    List<Task> tasksSortedByStartDate = taskService.sortTasksByStartDate(user.getUserId());
+                    break;
+                case 8:
+                    taskService.showCompletedTasks(user.getUserId());
+                    break;
+                case 9:
+                    taskService.showInProgressTasks(user.getUserId());
+                    break;
+                case 10:
+                    taskService.showUnstartedTasks(user.getUserId());
+                    break;
+                case 11:
+                    return;
+                case 'x':
+                    System.out.println("Thank you for using the BLIT ToDoList App!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid input.\nTry again!");
 
-                break;
-            case 2:
-                taskService.addTask(user.getUserId());
-                break;
-            case 3:
-                taskService.updateTask(user.getUserId());
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 'x':
-                System.out.println("Thank you for using the BLIT ToDoList App!");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Invalid input.\nTry again!");
+            }
 
         }
-
     }
 }
