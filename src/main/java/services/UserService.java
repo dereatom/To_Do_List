@@ -18,6 +18,8 @@ public class UserService {
         return null;
     }
 
+
+
     public void signUp() throws UserEmailTakenException, NoSuchUserException {
         System.out.println("What is your first name?");
         String firstName = UserInput.getStringInput();

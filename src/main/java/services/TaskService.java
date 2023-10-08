@@ -142,12 +142,15 @@ public class TaskService {
 
     public void printTasks(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
+
             Task task = tasks.get(i);
+            LocalDateTime startDate = task.getStartDate();
+            LocalDateTime dueDate = task.getDueDate();
             System.out.println(i + 1 + ") " + task.getTitle());
             System.out.println("\t\t" + task.getStatus() + "\n");
             System.out.println("\t\t" + task.getDescription() + "\n");
-            System.out.println("\t\tStart date:" + task.getStartDate());
-            System.out.println("\t\tDue date:" + task.getDueDate());
+            System.out.println("\t\tStart date:" + startDate.getMonth() + " " + startDate.getDayOfMonth()+ ", " + startDate.getYear());
+            System.out.println("\t\tDue date:" + dueDate.getMonth() + " " + dueDate.getDayOfMonth()+ ", " + dueDate.getYear());
 
             System.out.println("\n\n");
         }
