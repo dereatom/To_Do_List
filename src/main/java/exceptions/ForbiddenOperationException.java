@@ -1,6 +1,6 @@
 package exceptions;
 
-public class ForbiddenOperationException extends RuntimeException {
+public class ForbiddenOperationException extends Exception {
 
     public ForbiddenOperationException(String message) {
         super(message);

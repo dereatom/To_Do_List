@@ -24,7 +24,7 @@ public class UserService {
     }
 
 
-    public void signUp() throws UserEmailTakenException, NoSuchUserException {
+    public void signUp() throws UserEmailTakenException, NoSuchUserException, PasswordLengthException {
         System.out.println("What is your first name?");
         String firstName = UserInput.getStringInput();
         System.out.println("What is your last name?");
@@ -38,22 +38,21 @@ public class UserService {
 //                break;
 //            }
 //        }
-        System.out.println("Please choose a password no longer than 16 characters");
+        System.out.println("Please choose a password between 8 and 16 characters. Case doesn't matter.");
         String password = UserInput.getStringInput();
-
-        if (password.length() < 1 || password.length() > 16) {
+        password = password.trim().toLowerCase();
+        if (password.trim().length() < 8 || password.length() > 16) {
             throw new PasswordLengthException();
         }
         User user = new User(firstName, lastName, email, password);
         userDao.create(user);
     }
 
-    public void logIn() {
+    public void logIn() throws NoSuchUserException {
         System.out.println("Username/email:");
         String email = UserInput.getStringInput();
         if (!userDao.userExists(email)) {
-            System.out.println("No user exists with that email");
-            return;
+            throw new NoSuchUserException();
         }
         System.out.println("Password:");
         String password = UserInput.getStringInput();
@@ -98,7 +97,12 @@ public class UserService {
         userDao.create(user);
 
         System.out.println("User successfully created! Information is below\n");
-        user = userDao.read(user.getEmail().trim().toLowerCase());
+        try {
+			user = userDao.read(user.getEmail().trim().toLowerCase());
+		} catch (NoSuchUserException e) {
+			System.out.println("The read operation could not be completed, unfortunately\n"
+					+ "Please try again with a different user id");
+		}
         System.out.println(user);
 
 
@@ -110,14 +114,24 @@ public class UserService {
         users.forEach(System.out::println);
         int userId = UserInput.getIntInput();
         UserInput.getStringInput();
-//        User user = null;
-//        if(!userDao.userExists(userId))
-//            throw new NoSuchUserException();
-//        else
-//            user = userDao.read(userId);
-        User user = userDao.read(userId);
+       
+        User user = null;
+		try {
+			user = userDao.read(userId);
+		} catch (NoSuchUserException e) {
+			System.out.println("Unfortunately the read operation could not be completed\n"
+					+ "Please try again with a different user id");
+			
+		}
         user.setEmail("INVALID");
-        userDao.update(user);
+        try {
+			userDao.update(user);
+		} catch (NoSuchUserException e) {
+			
+			System.out.println("Unfortunately, update operation could not be completed");
+			System.out.println("Please try again with a different user id");
+			return;
+		}
         System.out.println("Please choose a new first name:");
         String firstName = UserInput.getStringInput();
         System.out.println("Please choose a new last name:");
@@ -125,16 +139,31 @@ public class UserService {
 
         System.out.println("Please choose a new email:");
         String email = UserInput.getStringInput();
-//        if(userDao.userExists(email)){
-//            throw new UserEmailTakenException();
-//        }
+        if(userDao.userExists(email)){
+        	System.out.println("User with that email already in the system\n"
+        			+ "Please try again with a different email");
+        	return;
+        }
+        
         System.out.println("Please choose a new password:\n");
         String password = UserInput.getStringInput();
         user = new User(userId, firstName, lastName, email, password);
-        userDao.update(user);
+        try {
+			userDao.update(user);
+		} catch (NoSuchUserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         System.out.println("User successfully updated!\nThe new user information is below:\n");
-        user = userDao.read(userId);
+        try {
+			user = userDao.read(userId);
+		} catch (NoSuchUserException e) {
+			System.out.println("Unfortunately, update operation could not be completed");
+			System.out.println("Please try again with a different user id");
+			return;
+		}
+        
         System.out.println(user);
     }
 

@@ -18,10 +18,10 @@ public class Homepage {
     private UserDaoImpl userDao = new UserDaoImpl();
 
     public Homepage(User user) {
-        this.user = user;
+        Homepage.user = user;
     }
 
-    public static void open() {
+    public void open() {
         System.out.println("Welcome, " + user.getFirstName());
         if (user.getEmail().equalsIgnoreCase("admin@email.com")) {
             provideOptionsAdmin();
