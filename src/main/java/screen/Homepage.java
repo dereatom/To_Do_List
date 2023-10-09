@@ -42,7 +42,7 @@ public class Homepage {
                     (5) Sort users by email
                     (6) Sort users by last name 
                     (7) Log out
-                    (x) Exit
+                    (8) Exit
                                     
                     """);
             int input = UserInput.getIntInput();
@@ -72,7 +72,7 @@ public class Homepage {
                     return;
 
 
-                case 'x':
+                case 8:
                     System.out.println("Thank you for using the BLIT ToDoList App!");
                     System.exit(0);
                     break;

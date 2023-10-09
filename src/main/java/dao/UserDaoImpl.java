@@ -156,7 +156,7 @@ public class UserDaoImpl implements Dao<User> {
         try (Connection conn = JDBConnection.getConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(DELETE_USER);
             preparedStatement.setInt(1, id);
-
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There was a problem trying to delete a user from database when attempting to make a connection to the database:\n" + e.getMessage());
 

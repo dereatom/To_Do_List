@@ -150,12 +150,12 @@ public class UserService {
         int userId = UserInput.getIntInput();
         UserInput.getStringInput();
 
-        if(!userDao.userExists(userId)){
-            throw new NoSuchUserException();
-        }else {
+//        if(!userDao.userExists(userId)){
+//            throw new NoSuchUserException();
+//        }else {
             userDao.delete(userId);
             System.out.println("User successfully deleted!");
-        }
+//        }
     }
 
     public void sortUsersByLastName() {
