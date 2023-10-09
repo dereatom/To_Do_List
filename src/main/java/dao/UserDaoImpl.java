@@ -140,7 +140,7 @@ public class UserDaoImpl implements Dao<User> {
         return this.read(email.toLowerCase()) != null;
     }
 
-    private boolean userExists(int userId) {
+    public boolean userExists(int userId) {
         return this.read(userId) != null;
     }
 

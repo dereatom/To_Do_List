@@ -17,4 +17,6 @@ public interface Dao<E> {
     void update(E obj) throws UserEmailTakenException, NoSuchUserException;
 
     void delete(int id);
+
+
 }
