@@ -38,19 +38,19 @@ public class TaskService {
 
     public void updateTask(int userId) {
         Task task = chooseTask(userId);
-        System.out.println("Choose a new title or leave blank (just press enter) if you want to leave it unchanged:");
+        System.out.println("Choose a new title:");
 
         String newTitle = UserInput.getStringInput();
         if (!newTitle.isBlank() && !newTitle.isEmpty()) {
             task.setTitle(newTitle);
         }
-        System.out.println("Add a new description or leave blank (just press enter) if you want to leave it unchanged:");
+        System.out.println("Add a new description");
         String newDescription = UserInput.getStringInput();
         if (!newDescription.isEmpty() && !newDescription.isBlank()) {
             task.setDescription(newDescription);
         }
 
-        System.out.println("What will the new status of your task be? (leave blank -- just press enter -- to leave it unchanged)\n" +
+        System.out.println("What will the new status of your task be?\n" +
                 "(1) NOT STARTED" +
                 "(2) IN PROGRESS" +
                 "(3) COMPLETED");
@@ -76,7 +76,7 @@ public class TaskService {
 
             task.setStatus(newStatus);
         }
-        System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY (leave blank -- just press enter -- if you want to leave unchanged");
+        System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY ");
         String dateStr = UserInput.getStringInput();
         if (!dateStr.isBlank() && !dateStr.isEmpty()) {
             String[] dateArr = dateStr.split("/");
@@ -158,7 +158,7 @@ public class TaskService {
 
     public List<Task> getUnstartedTasks(int userId) {
         return taskDao.readAll(userId).stream()
-                
+
                 .filter(task -> task.getStatus().equals(TaskStatus.NOT_STARTED)).toList();
 
     }

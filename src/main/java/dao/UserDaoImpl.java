@@ -44,7 +44,7 @@ public class UserDaoImpl implements Dao<User> {
             PreparedStatement preparedStatement = conn.prepareStatement(READ_USER);
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 User user = new User();
                 user.setUserId(userId);
                 user.setFirstName(rs.getString("user_first_name"));
@@ -116,7 +116,7 @@ public class UserDaoImpl implements Dao<User> {
     }
 
     @Override
-    public void update(User user){
+    public void update(User user) {
 //        if (!userExists(user.getUserId())) {
 //            throw new NoSuchUserException("id");
 //        }

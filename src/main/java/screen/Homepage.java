@@ -23,9 +23,9 @@ public class Homepage {
 
     public static void open() {
         System.out.println("Welcome, " + user.getFirstName());
-        if(user.getEmail().equalsIgnoreCase("admin@email.com")){
+        if (user.getEmail().equalsIgnoreCase("admin@email.com")) {
             provideOptionsAdmin();
-        }else {
+        } else {
             provideOptions();
         }
     }
@@ -50,7 +50,6 @@ public class Homepage {
             switch (input) {
                 case 1:
                     userService.showUsers();
-
                     break;
                 case 2:
                     userService.addUser();
@@ -101,7 +100,7 @@ public class Homepage {
                     (10) Show in-progress tasks
                     (11) Show unstarted tasks
                     (12) Log out
-                    (x) Exit
+                    (13) Exit
                                     
                     """);
             int input = UserInput.getIntInput();
@@ -146,7 +145,7 @@ public class Homepage {
                     System.out.println("Logging out...");
 
                     return;
-                case 'x':
+                case 13:
                     System.out.println("Thank you for using the BLIT ToDoList App!");
                     System.exit(0);
                     break;

@@ -5,7 +5,6 @@ import domain.User;
 import exceptions.NoSuchUserException;
 import exceptions.PasswordLengthException;
 import exceptions.UserEmailTakenException;
-import org.apache.commons.text.RandomStringGenerator;
 import screen.Homepage;
 import util.UserInput;
 
@@ -19,7 +18,7 @@ public class UserService {
         List<User> users = userDao.readAll();
         Collections.sort(users, new UserComparatorEmail());
 
-        for(User u : users){
+        for (User u : users) {
             System.out.println(u);
         }
     }
@@ -72,10 +71,10 @@ public class UserService {
 
     public void showUsers() {
         List<User> users = userDao.readAll();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             System.out.println("There are no users in the database");
-        }else {
-            for(User u : users){
+        } else {
+            for (User u : users) {
                 System.out.println(u);
             }
         }
@@ -95,13 +94,12 @@ public class UserService {
 
         System.out.println("Please enter password below:\n");
         String password = UserInput.getStringInput();
-        User user = new User(firstName, lastName, email,password);
+        User user = new User(firstName, lastName, email, password);
         userDao.create(user);
 
         System.out.println("User successfully created! Information is below\n");
         user = userDao.read(user.getEmail().trim().toLowerCase());
         System.out.println(user);
-        
 
 
     }
@@ -144,7 +142,7 @@ public class UserService {
         System.out.println("Please choose the user you'd like to remove from\n" +
                 "the database by entering their id:\n");
         List<User> users = userDao.readAll();
-        for(User u : users){
+        for (User u : users) {
             System.out.println(u);
         }
         int userId = UserInput.getIntInput();
@@ -153,15 +151,15 @@ public class UserService {
 //        if(!userDao.userExists(userId)){
 //            throw new NoSuchUserException();
 //        }else {
-            userDao.delete(userId);
-            System.out.println("User successfully deleted!");
+        userDao.delete(userId);
+        System.out.println("User successfully deleted!");
 //        }
     }
 
     public void sortUsersByLastName() {
         List<User> users = userDao.readAll();
         Collections.sort(users, new UserComparatorLastName());
-        for(User u : users){
+        for (User u : users) {
             System.out.println(u);
         }
 
