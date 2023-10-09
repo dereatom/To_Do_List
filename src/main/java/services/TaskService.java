@@ -7,10 +7,12 @@ import domain.TaskStatus;
 import exceptions.ForbiddenOperationException;
 import util.UserInput;
 
+import java.text.Format;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class TaskService {
 	TaskDaoImpl taskDao = new TaskDaoImpl();
@@ -31,7 +33,21 @@ public class TaskService {
 		System.out.println("Please provide a description for your task:");
 		String description = UserInput.getStringInput();
 		System.out.println("What is the deadline for the task? Write in this format: MM/DD/YYYY");
-		String[] dateArr = UserInput.getStringInput().split("/");
+		
+		String dateStr = "";
+		while(!validDateFormat(dateStr)) {
+			if(dateStr.equals("00")) {
+				return;
+			}
+			System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY ");
+			dateStr = UserInput.getStringInput();
+			if(validDateFormat(dateStr))
+				break;
+			else 
+				System.out.println("Invalid date format\nPlease try again, or press 00 to abort");
+			
+		};
+		String[] dateArr = dateStr.split("/");
 		LocalDateTime dueDate = LocalDate
 				.of(Integer.valueOf(dateArr[2]), Integer.valueOf(dateArr[0]), Integer.valueOf(dateArr[1]))
 				.atStartOfDay();
@@ -87,8 +103,20 @@ public class TaskService {
 
 			task.setStatus(newStatus);
 		}
-		System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY ");
-		String dateStr = UserInput.getStringInput();
+		
+		String dateStr ="";
+		while(!validDateFormat(dateStr)) {
+			if(dateStr.equals("00")) {
+				return;
+			}
+			System.out.println("What date should your task be completed by? Please input in this format: MM/DD/YYYY ");
+			dateStr = UserInput.getStringInput();
+			if(validDateFormat(dateStr))
+				break;
+			else 
+				System.out.println("Invalid date format\nPlease try again, or press 00 to abort");
+			
+		};
 		if (!dateStr.isBlank() && !dateStr.isEmpty()) {
 			String[] dateArr = dateStr.split("/");
 			int year = Integer.valueOf(dateArr[2]);
@@ -156,6 +184,15 @@ public class TaskService {
 				System.out.println("Invalid input, please try again\n");
 				break;
 			}
+		}
+	}
+	
+	public boolean validDateFormat(String dateString) {
+		String regex = "((0[0-9])|(1[0-2]))/(([0-2][0-9])|(3[0-1]))/(20[0-9][0-9])";
+		if(Pattern.matches(regex, dateString)) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 
