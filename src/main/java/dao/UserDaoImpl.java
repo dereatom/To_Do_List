@@ -44,24 +44,27 @@ public class UserDaoImpl implements Dao<User> {
             PreparedStatement preparedStatement = conn.prepareStatement(READ_USER);
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
-            User user = new User();
-            user.setUserId(rs.getInt("user_id"));
-            user.setFirstName(rs.getString("user_first_name"));
-            user.setLastName(rs.getString("user_last_name"));
-            user.setEmail(rs.getString("user_email"));
-            user.setPassword(rs.getString("user_password"));
-            return user;
+            while(rs.next()) {
+                User user = new User();
+                user.setUserId(userId);
+                user.setFirstName(rs.getString("user_first_name"));
+                user.setLastName(rs.getString("user_last_name"));
+                user.setEmail(rs.getString("user_email"));
+                user.setPassword(rs.getString("user_password"));
+                return user;
+            }
+            return null;
         } catch (SQLException e) {
             System.out.println("There was a problem in the read(int) method of your UserDaoImpl class when trying to create a connection to the database:\n" + e.getMessage());
-
+            return null;
 
         }
-        return null;
+
     }
 
 
     public User read(String email) throws NoSuchUserException {
-        email = email.toLowerCase();
+        email = email.trim().toLowerCase();
         final String READ_USER_BY_EMAIL = "SELECT * FROM users WHERE user_email = ?";
 
         try (Connection conn = JDBConnection.getConnection()) {
@@ -113,12 +116,12 @@ public class UserDaoImpl implements Dao<User> {
     }
 
     @Override
-    public void update(User user) throws NoSuchUserException {
-        if (!userExists(user.getUserId())) {
-            throw new NoSuchUserException("id");
-        }
+    public void update(User user){
+//        if (!userExists(user.getUserId())) {
+//            throw new NoSuchUserException("id");
+//        }
 
-        final String UPDATE_USER = "UPDATE users SET user_first_name = ?, user_last_name = ?, user_email = ?, user_password = ? WHERE user_id = ?";
+        final String UPDATE_USER = "UPDATE users SET user_first_name=?, user_last_name = ?,  user_email=?,user_password = ? WHERE user_id=?";
         try (Connection conn = JDBConnection.getConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(UPDATE_USER);
             preparedStatement.setString(1, user.getFirstName());
@@ -128,6 +131,9 @@ public class UserDaoImpl implements Dao<User> {
 
             preparedStatement.setString(3, user.getEmail().toLowerCase());
             preparedStatement.setString(4, user.getPassword());
+
+            preparedStatement.setInt(5, user.getUserId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("There was a problem in the update(User) method of the UserDaoImpl class when creating a connection to the database:\n" + e.getMessage());
 
@@ -137,7 +143,7 @@ public class UserDaoImpl implements Dao<User> {
 
     public boolean userExists(String email) throws NoSuchUserException {
 
-        return this.read(email.toLowerCase()) != null;
+        return this.read(email) != null;
     }
 
     public boolean userExists(int userId) {

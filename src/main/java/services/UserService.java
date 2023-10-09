@@ -88,19 +88,18 @@ public class UserService {
         String lastName = UserInput.getStringInput();
         System.out.println("What is the new user's email address?");
         String email = UserInput.getStringInput().trim().toLowerCase();
-        if(userDao.userExists(email)){
+//        if(userDao.userExists(email)){
+//
+//                throw new UserEmailTakenException();
+//        }
 
-                throw new UserEmailTakenException();
-        }
-
-        System.out.println("A temporary password will be provided, to be replaced by the user herself when she logs into her account the first time");
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(8, 16).build();
-        String password = pwdGenerator.generate(8,16);
+        System.out.println("Please enter password below:\n");
+        String password = UserInput.getStringInput();
         User user = new User(firstName, lastName, email,password);
         userDao.create(user);
 
         System.out.println("User successfully created! Information is below\n");
-        user = userDao.read(user.getUserId());
+        user = userDao.read(user.getEmail().trim().toLowerCase());
         System.out.println(user);
         
 
@@ -113,13 +112,13 @@ public class UserService {
         users.forEach(System.out::println);
         int userId = UserInput.getIntInput();
         UserInput.getStringInput();
-        User user = null;
-        if(!userDao.userExists(userId))
-            throw new NoSuchUserException();
-        else
-            user = userDao.read(userId);
-
-        user.setEmail("");
+//        User user = null;
+//        if(!userDao.userExists(userId))
+//            throw new NoSuchUserException();
+//        else
+//            user = userDao.read(userId);
+        User user = userDao.read(userId);
+        user.setEmail("INVALID");
         userDao.update(user);
         System.out.println("Please choose a new first name:");
         String firstName = UserInput.getStringInput();
@@ -128,12 +127,12 @@ public class UserService {
 
         System.out.println("Please choose a new email:");
         String email = UserInput.getStringInput();
-        if(userDao.userExists(email)){
-            throw new UserEmailTakenException();
-        }
+//        if(userDao.userExists(email)){
+//            throw new UserEmailTakenException();
+//        }
         System.out.println("Please choose a new password:\n");
         String password = UserInput.getStringInput();
-        user = new User(firstName, lastName, email, password);
+        user = new User(userId, firstName, lastName, email, password);
         userDao.update(user);
 
         System.out.println("User successfully updated!\nThe new user information is below:\n");
@@ -168,3 +167,8 @@ public class UserService {
 
     }
 }
+
+
+
+
+

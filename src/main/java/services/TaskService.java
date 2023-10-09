@@ -157,7 +157,9 @@ public class TaskService {
     }
 
     public List<Task> getUnstartedTasks(int userId) {
-        return taskDao.readAll(userId).stream().filter(task -> task.getStatus().equals(TaskStatus.NOT_STARTED)).toList();
+        return taskDao.readAll(userId).stream()
+                
+                .filter(task -> task.getStatus().equals(TaskStatus.NOT_STARTED)).toList();
 
     }
 

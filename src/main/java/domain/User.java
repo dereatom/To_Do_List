@@ -39,6 +39,14 @@ public class User {
         this.accountCreated = accountCreated;
     }
 
+    public User(int userId, String firstName, String lastName, String email, String password) {
+        this.userId=userId;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email.trim().toLowerCase();
+        this.password=password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
