@@ -5,15 +5,11 @@ import domain.Task;
 import domain.TaskStatus;
 
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDaoImpl implements Dao<Task> {
 
-    public static void main(String[] args) {
-
-    }
 
     @Override
     public void create(Task task) {
@@ -44,7 +40,7 @@ public class TaskDaoImpl implements Dao<Task> {
             stmt.setInt(1, taskId);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 task = new Task();
                 task.setTaskId(rs.getInt("task_id"));
                 task.setTitle(rs.getString("task_title"));
@@ -149,5 +145,12 @@ public class TaskDaoImpl implements Dao<Task> {
         } catch (SQLException e) {
             System.out.println("There was a problem in the delete(int) method of the TaskDaoImpl class. The error message can be found below:\n" + e.getMessage());
         }
+    }
+
+    public boolean taskExists(int taskId) {
+        if (read(taskId) != null)
+            return true;
+        else
+            return false;
     }
 }

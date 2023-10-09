@@ -1,5 +1,7 @@
 package domain;
 
+import java.time.LocalDateTime;
+
 public class User {
 
     private int userId;
@@ -8,22 +10,41 @@ public class User {
     private String email;
     private String password;
 
+    private LocalDateTime accountCreated;
+
     public User() {
 
     }
 
-    public User(int userId, String firstName, String lastName, String email, String password) {
+    public User(int userId, String firstName, String lastName, String email, String password, LocalDateTime accountCreated) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.accountCreated = accountCreated;
     }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+    }
+
+    public User(String firstName, String lastName, String email, String password, LocalDateTime accountCreated) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.accountCreated = accountCreated;
+    }
+
+    public User(int userId, String firstName, String lastName, String email, String password) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email.trim().toLowerCase();
         this.password = password;
     }
 

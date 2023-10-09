@@ -1,7 +1,5 @@
 package domain;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Task implements Comparable<Task> {
@@ -56,12 +54,17 @@ public class Task implements Comparable<Task> {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        LocalDateTime dueDate = getDueDate();
+        LocalDateTime startDate = getStartDate();
+        return "\n\tTASK ID: " + getTaskId() +
+                "\n" +
+                "\tTASK TITLE: " + getTitle() +
+                "\n\tTASK STATUS: " + getStatus().toString()+
+                "\n" +
+                "\tTASK DESCRIPTION: " + getDescription() +
+                "\n" +
+                "\tTASK DUE ON: " + dueDate.getMonth() + " " + dueDate.getDayOfMonth() + ", " + dueDate.getYear() + "\n" +
+                "\tTASK STARTED ON: " + startDate.getMonth() + " " + startDate.getDayOfMonth() + ", " + startDate.getYear();
     }
 
     public int getTaskId() {

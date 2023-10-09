@@ -10,11 +10,13 @@ public interface Dao<E> {
 
     void create(E obj) throws UserEmailTakenException, NoSuchUserException;
 
-    E read(int id);
+    E read(int id) throws NoSuchUserException;
 
     List<E> readAll();
 
     void update(E obj) throws UserEmailTakenException, NoSuchUserException;
 
     void delete(int id);
+
+
 }
